@@ -731,6 +731,10 @@
 
         /* Responsive Design */
         @media (max-width: 640px) {
+            main {
+                padding-bottom: 200px;
+            }
+
             .day-selector {
                 grid-template-columns: 1fr;
             }
@@ -794,7 +798,7 @@
         </div>
     </header>
 
-    <main class="container">
+    <main class="container" style="padding-bottom: 130px; padding-top: 40px;">
         <div id="exerciseList"></div>
         <div class="history-section" id="historySection">
             <div class="history-header">
@@ -1260,14 +1264,20 @@
             const historySection = document.getElementById('historySection');
             const exerciseList = document.getElementById('exerciseList');
             const toggleText = document.getElementById('historyToggleText');
+            const daySelector = document.querySelector('.day-selector');
+            const footer = document.querySelector('footer');
             
             if (historySection.classList.contains('active')) {
                 historySection.classList.remove('active');
                 exerciseList.style.display = 'block';
+                daySelector.style.display = 'grid';
+                footer.style.display = 'block';
                 toggleText.textContent = 'History';
             } else {
                 historySection.classList.add('active');
                 exerciseList.style.display = 'none';
+                daySelector.style.display = 'none';
+                footer.style.display = 'none';
                 toggleText.textContent = 'Back';
                 renderHistory();
             }
