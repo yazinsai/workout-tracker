@@ -277,25 +277,160 @@
             }
         }
 
-        .video-section {
+        /* Media Section - Flippable Card */
+        .media-section {
             position: relative;
+            width: 280px;
+            height: 200px;
+            perspective: 1000px;
+        }
+
+        @media (max-width: 640px) {
+            .media-section {
+                width: 100%;
+                height: 240px;
+            }
+        }
+
+        .media-flipper {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+
+        .media-flipper.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .media-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .media-front {
+            z-index: 2;
+            transform: rotateY(0deg);
+        }
+
+        .media-back {
+            transform: rotateY(180deg);
+            background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
+        }
+
+        /* Tips Section */
+        .tips-container {
+            background: white;
+            height: 100%;
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            overflow-y: auto;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tips-container:hover {
+            border-color: var(--primary);
+            box-shadow: 0 6px 16px rgba(0,112,243,0.1);
+        }
+
+        .tips-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .tips-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .flip-hint {
+            font-size: 10px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .tips-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            flex: 1;
+        }
+
+        .tip-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        .tip-icon {
+            flex-shrink: 0;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: bold;
+            margin-top: 1px;
+        }
+
+        .tip-icon.do {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .tip-icon.dont {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .tip-text {
+            flex: 1;
+            color: var(--text-primary);
+        }
+
+        /* Video Section */
+        .video-container-flip {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            cursor: pointer;
         }
 
         .video-thumbnail {
-            width: 100px;
-            height: 75px;
+            width: 100%;
+            height: 100%;
             background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
-            border-radius: 10px;
-            cursor: pointer;
+            border-radius: 12px;
             overflow: hidden;
             position: relative;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
             transition: all 0.3s;
         }
 
         .video-thumbnail:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+            transform: scale(1.02);
         }
 
         .video-thumbnail img {
@@ -304,26 +439,67 @@
             object-fit: cover;
         }
 
-        .play-icon {
+        .play-overlay {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 32px;
-            height: 32px;
-            background: rgba(0,0,0,0.8);
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+        }
+
+        .video-thumbnail:hover .play-overlay {
+            background: rgba(0,0,0,0.6);
+        }
+
+        .play-button {
+            width: 48px;
+            height: 48px;
+            background: rgba(255,255,255,0.9);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transition: all 0.3s;
         }
 
-        .play-icon::after {
+        .video-thumbnail:hover .play-button {
+            transform: scale(1.1);
+            background: white;
+        }
+
+        .play-button::after {
             content: '▶';
+            color: #1a1a1a;
+            font-size: 18px;
+            margin-left: 3px;
+        }
+
+        .video-label {
+            position: absolute;
+            bottom: 8px;
+            left: 8px;
+            right: 8px;
+            background: rgba(0,0,0,0.8);
             color: white;
-            font-size: 14px;
-            margin-left: 2px;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .flip-back-hint {
+            font-size: 10px;
+            opacity: 0.8;
         }
 
         /* Weight Input Section */
@@ -743,11 +919,6 @@
                 grid-template-columns: 1fr;
             }
 
-            .video-thumbnail {
-                width: 100%;
-                height: 180px;
-            }
-
             .weight-section {
                 flex-direction: column;
                 align-items: stretch;
@@ -834,6 +1005,220 @@
     </div>
 
     <script>
+        // Exercise tips and form guidance
+        const exerciseTips = {
+            "Barbell Bench Press": [
+                { type: "do", text: "Feet planted; slight arch; tight back" },
+                { type: "do", text: "Lower to mid-chest, elbows 45°" },
+                { type: "do", text: "Wrists straight; bar over wrists" },
+                { type: "dont", text: "Don't bounce bar; control descent" },
+                { type: "dont", text: "Don't flare elbows excessively" }
+            ],
+            "Dumbbell Bench Press": [
+                { type: "do", text: "Shoulder blades retracted; feet anchored" },
+                { type: "do", text: "Lower dumbbells to chest line" },
+                { type: "do", text: "Full range of motion; stretch at bottom" },
+                { type: "dont", text: "Don't clank dumbbells at top" },
+                { type: "dont", text: "Don't over-arch low back" }
+            ],
+            "Barbell Overhead Press": [
+                { type: "do", text: "Squeeze glutes; brace; ribs down" },
+                { type: "do", text: "Bar path close; head through" },
+                { type: "do", text: "Wrists stacked over elbows" },
+                { type: "dont", text: "No layback; avoid lumbar extension" },
+                { type: "dont", text: "Don't shrug; press with shoulders" }
+            ],
+            "Dumbbell Overhead Press": [
+                { type: "do", text: "Core tight; neutral spine" },
+                { type: "do", text: "Press up and slightly back" },
+                { type: "do", text: "Control the negative portion" },
+                { type: "dont", text: "Don't arch back excessively" },
+                { type: "dont", text: "Don't use momentum from legs" }
+            ],
+            "Dumbbell Incline Press": [
+                { type: "do", text: "Shoulder blades retracted; feet anchored" },
+                { type: "do", text: "Lower dumbbells to chest line" },
+                { type: "do", text: "Neutral wrists; slight elbow tuck" },
+                { type: "dont", text: "Avoid clanking; control range" },
+                { type: "dont", text: "Don't over-arch low back" }
+            ],
+            "Cable Crossover": [
+                { type: "do", text: "Slight forward lean; split stance" },
+                { type: "do", text: "Squeeze chest at peak contraction" },
+                { type: "do", text: "Control the eccentric phase" },
+                { type: "dont", text: "Don't round shoulders forward" },
+                { type: "dont", text: "Don't use excessive weight" }
+            ],
+            "Triceps Dips": [
+                { type: "do", text: "Slight forward lean for chest" },
+                { type: "do", text: "Lower until 90° elbow bend" },
+                { type: "do", text: "Lock out at top" },
+                { type: "dont", text: "Don't go too deep; protect shoulders" },
+                { type: "dont", text: "Don't swing or kip" }
+            ],
+            "Rope Pushdowns": [
+                { type: "do", text: "Elbows pinned; only forearms move" },
+                { type: "do", text: "Split rope at bottom; full lockout" },
+                { type: "dont", text: "Avoid shoulder sway or leaning" },
+                { type: "dont", text: "Don't flare elbows outward" },
+                { type: "dont", text: "Control eccentric; no swinging" }
+            ],
+            "Overhead Triceps Extension": [
+                { type: "do", text: "Elbows narrow; pointed forward" },
+                { type: "do", text: "Full stretch at bottom" },
+                { type: "do", text: "Keep core engaged" },
+                { type: "dont", text: "Don't flare elbows wide" },
+                { type: "dont", text: "Don't arch back" }
+            ],
+            "Conventional Deadlift": [
+                { type: "do", text: "Bar over midfoot; shins close" },
+                { type: "do", text: "Hinge; flat back; brace hard" },
+                { type: "do", text: "Push floor; don't yank bar" },
+                { type: "do", text: "Lockout with glutes, not lean" },
+                { type: "dont", text: "Don't round lumbar; reset each rep" }
+            ],
+            "Trap Bar Deadlift": [
+                { type: "do", text: "Center yourself in trap bar" },
+                { type: "do", text: "Chest up; neutral spine" },
+                { type: "do", text: "Drive through heels" },
+                { type: "dont", text: "Don't let knees cave inward" },
+                { type: "dont", text: "Don't hyperextend at lockout" }
+            ],
+            "Weighted Pull-Ups": [
+                { type: "do", text: "Full hang; pull chest to bar" },
+                { type: "do", text: "Drive elbows down and back" },
+                { type: "do", text: "Neck neutral; no craning" },
+                { type: "dont", text: "Avoid kipping; keep legs still" },
+                { type: "dont", text: "Control descent; no freefall" }
+            ],
+            "Lat Pulldown": [
+                { type: "do", text: "Slight lean back; chest up" },
+                { type: "do", text: "Pull to upper chest" },
+                { type: "do", text: "Squeeze lats at bottom" },
+                { type: "dont", text: "Don't pull behind neck" },
+                { type: "dont", text: "Don't use momentum" }
+            ],
+            "Barbell Row": [
+                { type: "do", text: "Hinge hips; torso ~45°" },
+                { type: "do", text: "Pull to lower ribs; pause" },
+                { type: "do", text: "Squeeze shoulder blades together" },
+                { type: "dont", text: "Don't jerk; strict tempo" },
+                { type: "dont", text: "Keep bar close; neutral neck" }
+            ],
+            "Cable Row": [
+                { type: "do", text: "Chest up; slight lean forward" },
+                { type: "do", text: "Pull to stomach; elbows back" },
+                { type: "do", text: "Squeeze shoulder blades" },
+                { type: "dont", text: "Don't round back" },
+                { type: "dont", text: "Don't lean back excessively" }
+            ],
+            "T-Bar Row": [
+                { type: "do", text: "Feet hip-width; knees bent" },
+                { type: "do", text: "Pull to chest; squeeze lats" },
+                { type: "do", text: "Keep core braced" },
+                { type: "dont", text: "Don't use momentum" },
+                { type: "dont", text: "Don't round lower back" }
+            ],
+            "Face Pulls": [
+                { type: "do", text: "Set cable high; rope grip" },
+                { type: "do", text: "Pull to nose; externally rotate" },
+                { type: "do", text: "Elbows high; wrists neutral" },
+                { type: "dont", text: "Don't arch; keep ribs down" },
+                { type: "dont", text: "Light load; prioritize control" }
+            ],
+            "Reverse Flyes": [
+                { type: "do", text: "Slight bend in elbows" },
+                { type: "do", text: "Lead with pinkies" },
+                { type: "do", text: "Squeeze shoulder blades" },
+                { type: "dont", text: "Don't use momentum" },
+                { type: "dont", text: "Don't shrug shoulders up" }
+            ],
+            "Barbell Back Squat": [
+                { type: "do", text: "Bar mid-trap; hands narrow" },
+                { type: "do", text: "Brace; sit between hips" },
+                { type: "do", text: "Knees track over toes" },
+                { type: "do", text: "Depth to parallel or below" },
+                { type: "dont", text: "Don't butt-wink under load" }
+            ],
+            "Front Squat": [
+                { type: "do", text: "Elbows high; rack position" },
+                { type: "do", text: "Upright torso; core tight" },
+                { type: "do", text: "Knees track over toes" },
+                { type: "dont", text: "Don't let elbows drop" },
+                { type: "dont", text: "Don't lean forward" }
+            ],
+            "Goblet Squat": [
+                { type: "do", text: "Hold weight close to chest" },
+                { type: "do", text: "Elbows inside knees" },
+                { type: "do", text: "Chest up throughout" },
+                { type: "dont", text: "Don't round back" },
+                { type: "dont", text: "Don't let knees cave" }
+            ],
+            "Romanian Deadlift": [
+                { type: "do", text: "Soft knees; push hips back" },
+                { type: "do", text: "Shins vertical; bar drags thighs" },
+                { type: "do", text: "Flat back; long hamstring stretch" },
+                { type: "do", text: "Stand tall; squeeze glutes" },
+                { type: "dont", text: "Don't lower past control" }
+            ],
+            "Hip Thrust": [
+                { type: "do", text: "Shoulder blades on bench" },
+                { type: "do", text: "Chin tucked; ribs down" },
+                { type: "do", text: "Full hip extension at top" },
+                { type: "dont", text: "Don't arch back at top" },
+                { type: "dont", text: "Don't push through toes" }
+            ],
+            "Walking Lunges": [
+                { type: "do", text: "Long stride; front shin vertical" },
+                { type: "do", text: "Torso tall; slight forward lean" },
+                { type: "do", text: "Knee kisses floor; not slam" },
+                { type: "do", text: "Push through front heel" },
+                { type: "dont", text: "Don't let knee cave" }
+            ],
+            "Bulgarian Split Squats": [
+                { type: "do", text: "Rear foot elevated; laces down" },
+                { type: "do", text: "Front shin vertical at bottom" },
+                { type: "do", text: "Control the descent" },
+                { type: "dont", text: "Don't bounce at bottom" },
+                { type: "dont", text: "Don't lean too far forward" }
+            ],
+            "Standing Calf Raises": [
+                { type: "do", text: "Full range; pause at top" },
+                { type: "do", text: "Straight body alignment" },
+                { type: "do", text: "Control the negative" },
+                { type: "dont", text: "Don't bounce at bottom" },
+                { type: "dont", text: "Don't bend knees" }
+            ],
+            "Seated Calf Raises": [
+                { type: "do", text: "Pad just above knees" },
+                { type: "do", text: "Full stretch at bottom" },
+                { type: "do", text: "Peak contraction at top" },
+                { type: "dont", text: "Don't use momentum" },
+                { type: "dont", text: "Don't partial rep" }
+            ],
+            "Plank": [
+                { type: "do", text: "Ribs down; squeeze glutes" },
+                { type: "do", text: "Straight line; no sag" },
+                { type: "do", text: "Breathe steadily" },
+                { type: "dont", text: "Don't let hips sag" },
+                { type: "dont", text: "Don't hold breath" }
+            ],
+            "Hanging Leg Raises": [
+                { type: "do", text: "Posterior tilt before raise" },
+                { type: "do", text: "Control swing; slow lower" },
+                { type: "do", text: "Full range of motion" },
+                { type: "dont", text: "Don't yank with hip flexors" },
+                { type: "dont", text: "Don't swing excessively" }
+            ],
+            "Ab Wheel": [
+                { type: "do", text: "Start on knees; hollow body" },
+                { type: "do", text: "Roll out slowly; maintain form" },
+                { type: "do", text: "Pull back with abs" },
+                { type: "dont", text: "Don't arch lower back" },
+                { type: "dont", text: "Don't go beyond control" }
+            ]
+        };
+
         // Enhanced workout data with variations
         const workoutData = {
             "routineName": "80/20 Buff Plan",
@@ -1030,6 +1415,9 @@
                 const videoId = extractVideoId(currentVariation.video);
                 const thumbnailUrl = videoId ? `https://img.youtube.com/vi/${videoId}/mqdefault.jpg` : '';
                 
+                // Get tips for the current variation
+                const tips = exerciseTips[selectedVar] || [];
+                
                 // Get previous weight from history
                 const previousWeight = getPreviousWeight(exercise.name);
                 const weightChange = previousWeight && entry.weight ? 
@@ -1054,13 +1442,44 @@
                             ` : ''}
                         </div>
                         <div class="exercise-content">
-                            <div class="video-section">
-                                ${currentVariation.video ? `
-                                    <div class="video-thumbnail" onclick="openVideo('${currentVariation.video}', '${currentVariation.name}')">
-                                        ${thumbnailUrl ? `<img src="${thumbnailUrl}" alt="${currentVariation.name}">` : ''}
-                                        <div class="play-icon"></div>
+                            <div class="media-section">
+                                <div class="media-flipper" id="flipper-${exercise.name.replace(/\s+/g, '-')}">
+                                    <div class="media-face media-front">
+                                        <div class="tips-container" onclick="flipCard('${exercise.name.replace(/\s+/g, '-')}')">
+                                            <div class="tips-header">
+                                                <span class="tips-title">Form Tips</span>
+                                                <span class="flip-hint">tap for video →</span>
+                                            </div>
+                                            <div class="tips-list">
+                                                ${tips.map(tip => `
+                                                    <div class="tip-item">
+                                                        <span class="tip-icon ${tip.type}">
+                                                            ${tip.type === 'do' ? '✓' : '✗'}
+                                                        </span>
+                                                        <span class="tip-text">${tip.text}</span>
+                                                    </div>
+                                                `).join('')}
+                                                ${tips.length === 0 ? '<p style="color: var(--text-secondary); font-size: 12px;">No tips available for this exercise</p>' : ''}
+                                            </div>
+                                        </div>
                                     </div>
-                                ` : '<div style="width: 100px;"></div>'}
+                                    <div class="media-face media-back">
+                                        ${currentVariation.video ? `
+                                            <div class="video-container-flip">
+                                                <div class="video-thumbnail" onclick="openVideo('${currentVariation.video}', '${currentVariation.name}')">
+                                                    ${thumbnailUrl ? `<img src="${thumbnailUrl}" alt="${currentVariation.name}">` : ''}
+                                                    <div class="play-overlay">
+                                                        <div class="play-button"></div>
+                                                    </div>
+                                                    <div class="video-label">
+                                                        <span>Watch Demo</span>
+                                                        <span class="flip-back-hint" onclick="event.stopPropagation(); flipCard('${exercise.name.replace(/\s+/g, '-')}')">← back</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ` : '<div style="padding: 20px; color: white;">No video available</div>'}
+                                    </div>
+                                </div>
                             </div>
                             <div class="weight-section">
                                 <div class="weight-input-group">
@@ -1346,6 +1765,14 @@
             if (confirm('Are you sure you want to clear all workout history? This cannot be undone.')) {
                 localStorage.removeItem('buffPlanLog');
                 renderHistory();
+            }
+        }
+
+        // Flip card between tips and video
+        function flipCard(exerciseId) {
+            const flipper = document.getElementById(`flipper-${exerciseId}`);
+            if (flipper) {
+                flipper.classList.toggle('flipped');
             }
         }
 
